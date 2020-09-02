@@ -1,15 +1,14 @@
 {
-  "homepage": "https://github.com/Bluepuff71/4331-VR-Project-1",
-  "name": "4331-VR-Project-1",
-  "version": "1.0.0",
-  "dependencies": {
-    "aframe": "^1.0.4"
+  "name": "4331_vr_project_1",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "start": "budo --live --verbose --port 3000 --open",
+    "deploy": "ghpages",
+    "ghpages": "ghpages"
   },
   "devDependencies": {
-    "gh-pages": "^3.1.0"
-  },
-  "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "budo": "latest",
+    "ghpages": "latest"
   }
 }
