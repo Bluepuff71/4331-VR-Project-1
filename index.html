@@ -1,27 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Hello, World! - A-Frame</title>
     <meta name="description" content="Hello, World! - A-Frame">
-    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-physics-system@v3.2.0/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-sun-sky@3.0.3/dist/aframe-sun-sky.min.js"></script>
   </head>
   <body>
     <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
-      <a-entity id="rig"
-                movement-controls
-                position="25 0 25">
-        <a-entity camera
-                  position="0 1.6 0"
-                  look-controls="pointerLockEnabled: true"></a-entity>
+      <!--Player Start-->
+      <a-entity id="rig" movement-controls position="0.04521 0.02388 1.32293">
+        <a-entity camera position="0 2.294 0" look-controls="pointerLockEnabled: true"></a-entity>
       </a-entity>
+      <a-entity
+              id="leftController"
+              static-body="shape: sphere; sphereRadius: 0.02;"
+              vive-controls="hand: left"
+              sphere-collider="objects: .throwable"
+              grab
+      ></a-entity>
+      <a-entity
+              id="rightController"
+              static-body="shape: sphere; sphereRadius: 0.02;"
+              vive-controls="hand: right"
+              sphere-collider="objects: .throwable"
+              grab
+      ></a-entity>
+      <!--Player End-->
+
+      <a-entity id="house" material="flatShading: false; color: #000000; side: front; transparent: false" shadow="cast: true; receive: true" position="-9.021 0 0" scale="0.02 0.02 0.02" gltf-model="models/Room.glb"></a-entity>
+
+      <!--House Furniture Start-->
+      <a-entity id="bed" rotation="0 90 0" shadow="cast: true; receive: false" scale="0.04 0.04 0.04" position="-5.60791 0.56442 -0.56507" gltf-model="models/bed/scene.gltf"></a-entity>
+      <a-entity id="desk" shadow="cast: true; receive: false" rotation="0 -90 0" position="-3.40001 -0.00769 -6.246" scale="0.28 0.28 0.28" gltf-model="models/computer_desk/scene.gltf"></a-entity>
+      <a-entity id="light-switch" scale="1.2 1.2 1" shadow="cast: false; receive: true" rotation="0 0 0" position="0.09118 2.10871 -3.044" gltf-model="models/light_switch/scene.gltf"></a-entity>
+      <a-entity id="fan" scale="0.002 0.002 0.002" position="-1.16198 3.48017 -4.131" gltf-model="models/ceiling_fan/scene.gltf">
+        <a-light id="fan-light" light="type: point; penumbra: 0; shadowBias: 0; castShadow: true; angle: 60; shadowCameraVisible: false; shadowRadius: 1; shadowMapWidth: 512; shadowCameraBottom: -5; decay: 1; intensity: 0.25; color: #fffff4; distance: 0" position="0 -147.25958 0"></a-light>
+      </a-entity>
+      <a-entity id="roomba" nav-agent="active: true; destination: -3.18919 0 0.47107" scale="0.2 0.2 0.2" gltf-model="models/doomba/scene.gltf"></a-entity>
+      <a-entity id="nav-mesh" scale="0.02 0.02 0.02" position="-9.021 0 0" gltf-model="models/nav_mesh/nav-mesh.glb"></a-entity>
+      <a-entity id="bathroom-door"></a-entity>
+      <a-entity id="bedroom-door" rotation="-179.9998479605043 90 -179.9998479605043" position="1.36576 0 -4.16078" scale="0.019 0.019 0.019" gltf-model="models/door_with_frame/scene.gltf"></a-entity>
+      <a-entity id="closet-door"></a-entity>
+	  <!--House Furniture End-->
+	  
+	  <a-entity class="throwable" id="phone" shadow="cast: true; receive: true" geometry="buffer: true; depth: 1; height: 1; primitive: box;" dynamic-body="sphereRadius: NaN; shape: auto" material="color: #191919" scale="0.11 0.02 0.24" position="-4.58623 1.34764 -5.90416"></a-entity>
+	  
+	  <a-entity id="r-point-0" position="-3.18919 0 0.47107" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-1" position="-3.322 0 -2.98726" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-2" position="-6.25766 0 -3.15256" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-3" position="-6.40122 0 -6.22668" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-4" position="-5.40723 0 -6.24318" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-5" position="-5.36807 0 -4.2841" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-6" position="-0.60371 0 -4.82479" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-7" position="0.74278 0 -4.16182" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-8" position="-0.58328 0 -3.456" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-9" position="-1.66154 0 -2.31566" geometry="primitive: sphere; radius: 0.2"></a-entity>
+	  <a-entity id="r-point-10" position="0.04016 0 0.24659" geometry="primitive: sphere; radius: 0.2"></a-entity>
+
+      <!--World Lighting Start-->
+      <a-light id="ambient" position="0 1.58027 0" light="type: ambient; castShadow: false; intensity: 0.59; color: #fffff4; groundColor: #fffff4"></a-light>
+      <a-sun-sky id="sun" position="0 0 0" material="side: back; sunPosition: -1 1.09 0"></a-sun-sky>
+      <a-light id="sun-light" light="castShadow: true; shadowCameraVisible: false; shadowCameraRight: 12.57; shadowCameraLeft: -12.39; shadowCameraTop: 8.85; shadowCameraBottom: -8.46; shadowBias: 0.01; shadowMapHeight: 2048; shadowMapWidth: 2048; shadowRadius: 0; intensity: 1; shadowCameraFar: 32.53; shadowCameraNear: 10; decay: 1; shadowCameraFov: 97.13" position="-18.654 20.25103 0"></a-light>
+      <!--World Lighting End-->
     </a-scene>
+	<script>
+		var currentPos = 0;
+		var roombaPositions = [new THREE.Vector3(-3.18919, 0, 0.47107), new THREE.Vector3(-3.322, 0, -2.98726)]
+		var npcEl = document.querySelector('#roomba');
+		npcEl.addEventListener('navigation-end', function(){
+			currentPos = currentPos % roombaPositions.length;
+			npcEl.setAttribute('nav-agent', {
+				destination: roombaPositions[currentPos]
+			});
+			console.log(roombaPositions[currentPos]);
+		});
+		console.log(roombaPositions)
+	</script>
   </body>
 </html>
