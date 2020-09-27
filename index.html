@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Hello, World! - A-Frame</title>
     <meta name="description" content="Hello, World! - A-Frame">
@@ -8,77 +8,149 @@
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-physics-system@v3.2.0/dist/aframe-physics-system.min.js"></script>
     <script src="https://unpkg.com/aframe-sun-sky@3.0.3/dist/aframe-sun-sky.min.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      <!--Player Start-->
-      <a-entity id="rig" movement-controls position="0.04521 0.02388 1.32293">
-        <a-entity camera position="0 2.294 0" look-controls="pointerLockEnabled: true"></a-entity>
-      </a-entity>
-      <a-entity
-              id="leftController"
-              static-body="shape: sphere; sphereRadius: 0.02;"
-              vive-controls="hand: left"
-              sphere-collider="objects: .throwable"
-              grab
-      ></a-entity>
-      <a-entity
-              id="rightController"
-              static-body="shape: sphere; sphereRadius: 0.02;"
-              vive-controls="hand: right"
-              sphere-collider="objects: .throwable"
-              grab
-      ></a-entity>
-      <!--Player End-->
+    <script src="https://unpkg.com/aframe-lerp-component/dist/aframe-lerp-component.min.js"></script>
+    <script src="https://rawgit.com/caseyyee/aframe-ui-widgets/master/dist/aframe-ui-widgets.min.js"></script>
+	<script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
+	<script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+	
+</head>
+<body>
+<script>
+    AFRAME.registerComponent('model-opacity', {
+        schema: {default: 1.0},
+        init: function () {
+            this.el.addEventListener('model-loaded', this.update.bind(this));
+        },
+        update: function () {
+            var mesh = this.el.getObject3D('mesh');
+            var data = this.data;
+            if (!mesh) {
+                return;
+            }
+            mesh.traverse(function (node) {
+                if (node.isMesh) {
+                    node.material.opacity = data;
+                    node.material.transparent = data < 1.0;
+                    node.material.needsUpdate = true;
+                }
+            });
+        }
+    });
+</script>
 
-      <a-entity id="house" material="flatShading: false; color: #000000; side: front; transparent: false" shadow="cast: true; receive: true" position="-9.021 0 0" scale="0.02 0.02 0.02" gltf-model="models/Room.glb"></a-entity>
+<a-scene>
+    <a-assets>
+        <a-mixin id="controller-left"
+                 teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc">
+        </a-mixin>
+        <a-mixin id="controller-right"
+                 teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc">
+        </a-mixin>
+        <a-mixin id="beveled-square"
+                 geometry="primitive: cone; radiusTop: 0.15; radiusBottom: 0.19; height: 0.02; segmentsRadial: 4; segmentsHeight: 1"
+                 rotation="0 45 0"></a-mixin>
+        <a-mixin id="square" geometry="primitive: box; width: 0.18; height: 0.025; depth: 0.18;"
+                 position="0 0.02 0"></a-mixin>
+        <a-mixin id="blue" material="color: #1E2768;"></a-mixin>
+        <a-mixin id="darkgreen" material="color: #22FF90;"></a-mixin>
+		<a-mixin id="darkred" material="color: #8B0000;"></a-mixin>
+        <a-mixin id="yellow" material="color: #FFF88E;"></a-mixin>
+        <a-mixin id="gold" material="color: #FFD700;"></a-mixin>
+        <a-mixin id="offset" position="0 0.01 0"></a-mixin>
+    </a-assets>
+    <!--Player Start-->
+    <a-entity id="cameraRig">
+        <a-entity id="head" camera look-controls="pointerLockEnabled: true" wasd-controls position="0 1 0">
+			<a-cursor visible="false" id="cursor" position="0 0 -.15" scale=".1 .1 .1"></a-cursor>
+		</a-entity>
+        <a-entity id="rhand" mixin="controller-right"></a-entity>
+        <a-entity id="lhand" mixin="controller-left"></a-entity>
+    </a-entity>
+    <!--Player End-->
 
-      <!--House Furniture Start-->
-      <a-entity id="bed" rotation="0 90 0" shadow="cast: true; receive: false" scale="0.04 0.04 0.04" position="-5.60791 0.56442 -0.56507" gltf-model="models/bed/scene.gltf"></a-entity>
-      <a-entity id="desk" shadow="cast: true; receive: false" rotation="0 -90 0" position="-3.40001 -0.00769 -6.246" scale="0.28 0.28 0.28" gltf-model="models/computer_desk/scene.gltf"></a-entity>
-      <a-entity id="light-switch" scale="1.2 1.2 1" shadow="cast: false; receive: true" rotation="0 0 0" position="0.09118 2.10871 -3.044" gltf-model="models/light_switch/scene.gltf"></a-entity>
-      <a-entity id="fan" scale="0.002 0.002 0.002" position="-1.16198 3.48017 -4.131" gltf-model="models/ceiling_fan/scene.gltf">
-        <a-light id="fan-light" light="type: point; penumbra: 0; shadowBias: 0; castShadow: true; angle: 60; shadowCameraVisible: false; shadowRadius: 1; shadowMapWidth: 512; shadowCameraBottom: -5; decay: 1; intensity: 0.25; color: #fffff4; distance: 0" position="0 -147.25958 0"></a-light>
-      </a-entity>
-      <a-entity id="roomba" nav-agent="active: true; destination: -3.18919 0 0.47107" scale="0.2 0.2 0.2" gltf-model="models/doomba/scene.gltf"></a-entity>
-      <a-entity id="nav-mesh" scale="0.02 0.02 0.02" position="-9.021 0 0" gltf-model="models/nav_mesh/nav-mesh.glb"></a-entity>
-      <a-entity id="bathroom-door"></a-entity>
-      <a-entity id="bedroom-door" rotation="-179.9998479605043 90 -179.9998479605043" position="1.36576 0 -4.16078" scale="0.019 0.019 0.019" gltf-model="models/door_with_frame/scene.gltf"></a-entity>
-      <a-entity id="closet-door"></a-entity>
-	  <!--House Furniture End-->
-	  
-	  <a-entity class="throwable" id="phone" shadow="cast: true; receive: true" geometry="buffer: true; depth: 1; height: 1; primitive: box;" dynamic-body="sphereRadius: NaN; shape: auto" material="color: #191919" scale="0.11 0.02 0.24" position="-4.58623 1.34764 -5.90416"></a-entity>
-	  
-	  <a-entity id="r-point-0" position="-3.18919 0 0.47107" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-1" position="-3.322 0 -2.98726" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-2" position="-6.25766 0 -3.15256" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-3" position="-6.40122 0 -6.22668" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-4" position="-5.40723 0 -6.24318" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-5" position="-5.36807 0 -4.2841" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-6" position="-0.60371 0 -4.82479" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-7" position="0.74278 0 -4.16182" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-8" position="-0.58328 0 -3.456" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-9" position="-1.66154 0 -2.31566" geometry="primitive: sphere; radius: 0.2"></a-entity>
-	  <a-entity id="r-point-10" position="0.04016 0 0.24659" geometry="primitive: sphere; radius: 0.2"></a-entity>
+    <a-entity id="Home" scale="0.5 0.5 0.5" position="1.23513 0 1.89864">
+        <a-entity id="house" material="flatShading: false; color: #000000; side: front; transparent: false"
+                  shadow="cast: true; receive: true" position="-9.021 0 0" scale="0.02 0.02 0.02"
+                  gltf-model="models/Room.glb"></a-entity>
+        <!--House Furniture Start-->
+        <a-entity id="bed" rotation="0 90 0" shadow="cast: true; receive: false" scale="0.04 0.04 0.04"
+                  position="-5.60791 0.56442 -0.56507" gltf-model="models/bed/scene.gltf">
+            <a-box id="bed-leg-0" material="color: #000000" position="34.303 -7.26873 38.03502" scale="4 17 4"></a-box>
+            <a-box id="bed-leg-1" material="color: #000000" position="-27.65 -7.26873 38.035" scale="4 17 4"></a-box>
+            <a-box id="bed-leg-2" material="color: #000000" position="34.30303 -7.26873 -32.632" scale="4 17 4"></a-box>
+            <a-box id="bed-leg-3" material="color: #000000" position="-27.65 -7.26873 -32.632" scale="4 17 4"></a-box>
+        </a-entity>
+        <a-entity id="desk" shadow="cast: true; receive: false" rotation="0 -90 0" position="-3.40001 -0.00769 -6.246"
+                  scale="0.28 0.28 0.28" gltf-model="models/computer_desk/scene.gltf"></a-entity>
+        <a-entity id="light-switch" scale="1.2 1.2 1" shadow="cast: false; receive: true" rotation="0 0 0"
+                  position="0.09118 2.10871 -3.044" gltf-model="models/light_switch/scene.gltf"></a-entity>
+        <a-entity id="fan" scale="0.003 0.003 0.003" position="-4.18253 5.02908 -3.27803"
+                  gltf-model="models/ceiling_fan/scene.gltf">
+            <a-light id="fan-light"
+                     light="type: point; penumbra: 0; shadowBias: 0; castShadow: true; angle: 60; shadowCameraVisible: false; shadowRadius: 1; shadowMapWidth: 512; shadowCameraBottom: -5; decay: 1; intensity: 0.25; color: #fffff4; distance: 0"
+                     position="0 -147.25958 0"></a-light>
+        </a-entity>
+        <a-entity id="bathroom-door" shadow="cast: true; receive: true" position="-6.01296 0.03573 -6.94212"
+                  rotation="0.1724602963343778 -0.36554707329346525 -0.2016811438860498" scale="0.019 0.02 0.002"
+                  gltf-model="models/door_with_frame/scene.gltf"></a-entity>
+        <a-entity id="bedroom-door" shadow="cast: true; receive: true"
+                  rotation="-179.9998479605043 90 -179.9998479605043" position="1.36576 0 -4.16078"
+                  scale="0.019 0.019 0.019" gltf-model="models/door_with_frame/scene.gltf"></a-entity>
+        <a-entity id="closet-door" shadow="cast: true; receive: true" position="-1.01155 0 -0.88" rotation="0 90 0"
+                  scale="0.019 0.02 0.002" gltf-model="models/door_with_frame/scene.gltf"></a-entity>
+        <!--House Furniture End-->
 
-      <!--World Lighting Start-->
-      <a-light id="ambient" position="0 1.58027 0" light="type: ambient; castShadow: false; intensity: 0.59; color: #fffff4; groundColor: #fffff4"></a-light>
-      <a-sun-sky id="sun" position="0 0 0" material="side: back; sunPosition: -1 1.09 0"></a-sun-sky>
-      <a-light id="sun-light" light="castShadow: true; shadowCameraVisible: false; shadowCameraRight: 12.57; shadowCameraLeft: -12.39; shadowCameraTop: 8.85; shadowCameraBottom: -8.46; shadowBias: 0.01; shadowMapHeight: 2048; shadowMapWidth: 2048; shadowRadius: 0; intensity: 1; shadowCameraFar: 32.53; shadowCameraNear: 10; decay: 1; shadowCameraFov: 97.13" position="-18.654 20.25103 0"></a-light>
-      <!--World Lighting End-->
-    </a-scene>
-	<script>
-		var currentPos = 0;
-		var roombaPositions = [new THREE.Vector3(-3.18919, 0, 0.47107), new THREE.Vector3(-3.322, 0, -2.98726)]
-		var npcEl = document.querySelector('#roomba');
-		npcEl.addEventListener('navigation-end', function(){
-			currentPos = currentPos % roombaPositions.length;
-			npcEl.setAttribute('nav-agent', {
-				destination: roombaPositions[currentPos]
-			});
-			console.log(roombaPositions[currentPos]);
-		});
-		console.log(roombaPositions)
-	</script>
-  </body>
+        <!--Atmos Furniture-->
+        <a-entity id="shoes" class="fadeOut" model-opacity="1"
+                  rotation="-179.9998479605043 -6.162734044427135 -179.9998479605043"
+                  position="-6.70237 -0.03202 -3.24944" scale="0.1 0.1 0.1"
+                  gltf-model="models/atmos/shoe.glb"></a-entity>
+        <a-entity id="tennis-racket" class="fadeOut" model-opacity="1"
+                  rotation="-11.144602073089642 83.43755187372128 -176.1650414376937"
+                  position="-6.86973 0.37225 -3.68919" scale="0.002 0.002 0.002"
+                  gltf-model="models/atmos/tennis-racket/scene.gltf"></a-entity>
+        <a-entity id="tennis-ball" scale="0.09 0.09 0.09" position="-6.73664 -0.01564 -4.09628"
+                  gltf-model="models/atmos/tennis-ball/scene.gltf" class="fadeOut" model-opacity="1"></a-entity>
+        <a-entity id="masks" class="fadeIn" model-opacity="0"
+                  rotation="-88.81934444338508 -166.0935893148841 70.2348854005217" scale="2 2 2"
+                  position="-3.76755 1.55893 -4.71342" gltf-model="models/atmos/mask.glb"></a-entity>
+        <a-entity id="clothes" class="fadeIn" model-opacity="0" position="-4.62308 1.32007 -1.19314"
+                  scale="0.001 0.001 0.001" gltf-model="models/atmos/clothes/scene.gltf"></a-entity>
+        <a-entity id="plate_0" class="fadeIn" model-opacity="0" position="-4.62741 -1.48852 -5.12906"
+                  scale="0.1 0.1 0.1" gltf-model="models/atmos/plate/scene.gltf"></a-entity>
+        <a-entity id="plate_1" class="fadeIn" model-opacity="0" position="-4.34449 -0.97946 -5.76463"
+                  scale="0.08 0.08 0.08" gltf-model="models/atmos/plate/scene.gltf"></a-entity>
+        <a-entity id="plate_2" class="fadeIn" model-opacity="0" position="-2.55358 -0.97946 -5.96402"
+                  scale="0.08 0.08 0.08" gltf-model="models/atmos/plate/scene.gltf"></a-entity>
+        <a-entity id="mug" class="fadeIn" model-opacity="0" rotation="0 172.28554420686288 0"
+                  position="-1.5341 -0.72942 -7.11777" scale="0.07 0.07 0.07"
+                  gltf-model="models/atmos/mug/scene.gltf"></a-entity>
+        <a-entity id="laundry" class="fadeIn" model-opacity="0" rotation="0 -68.98870219611217 0"
+                  position="-3.19333 0.0806 0.48618" scale="0.005 0.005 0.005"
+                  gltf-model="models/atmos/laundry-basket/scene.gltf"></a-entity>
+        <a-entity id="backpack" class="fadeOut" model-opacity="1"
+                  rotation="0.16214705602202298 0.18850311459804084 -28.642733136384987"
+                  position="-1.39832 0.40272 -2.83334" scale="0.02 0.02 0.02"
+                  gltf-model="models/atmos/backpack/scene.gltf"></a-entity>
+        <!--Atmos Furniture-->
+        <a-entity id="normal-button" rotation="-90 0 0" position="-0.39153 2.09007 -3.04317"
+                  ui-button="base: beveled-square, blue; top: square, darkgreen; pressed: yellow, offset"></a-entity>
+		<a-entity id="corona-button" rotation="-90 0 0" position="0.09803 2.09007 -3.04317"
+                  ui-button="base: beveled-square, blue; top: square, darkred; pressed: yellow, offset"></a-entity>
+		<a-entity id="reset-button" rotation="-90 0 0" position="0.56923 2.09007 -3.04317"
+                  ui-button="base: beveled-square, blue; top: square, gold; pressed: yellow, offset"></a-entity>
+    </a-entity>
+
+
+    <!--World Lighting Start-->
+    <a-light id="ambient" position="0 1.58027 0"
+             light="type: ambient; castShadow: false; intensity: 0.59; color: #fffff4; groundColor: #fffff4"></a-light>
+    <a-sun-sky id="sun" position="0 0 0" material="side: back; sunPosition: -1 1.09 0"></a-sun-sky>
+    <a-light id="sun-light"
+             light="castShadow: true; shadowCameraVisible: false; shadowCameraRight: 12.57; shadowCameraLeft: -12.39; shadowCameraTop: 8.85; shadowCameraBottom: -8.46; shadowBias: 0.01; shadowMapHeight: 2048; shadowMapWidth: 2048; shadowRadius: 0; intensity: 1; shadowCameraFar: 32.53; shadowCameraNear: 10; decay: 1; shadowCameraFov: 97.13"
+             position="-18.654 20.25103 0"></a-light>
+    <!--World Lighting End-->
+</a-scene>
+<script src="./js/atmos.js"></script>
+</body>
 </html>

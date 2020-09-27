@@ -1,0 +1,211 @@
+{
+  "accessors": [
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 363,
+      "max": [
+        2.5754396915435791,
+        25.601396560668945,
+        -6.0377397537231445
+      ],
+      "min": [
+        -1.8827308416366577,
+        25.277305603027344,
+        -10.495911598205566
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 4356,
+      "componentType": 5126,
+      "count": 363,
+      "max": [
+        0.94187462329864502,
+        1,
+        0.9418749213218689
+      ],
+      "min": [
+        -0.94187420606613159,
+        -0.97618973255157471,
+        -0.94187617301940918
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 363,
+      "max": [
+        0.99999994039535522,
+        0.23834206163883209,
+        0.99996113777160645,
+        1
+      ],
+      "min": [
+        -0.99996113777160645,
+        -0.14774695038795471,
+        -0.99996113777160645,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 1800,
+      "max": [
+        362
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "French Baguette (https://sketchfab.com/FrenchBaguette)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/models/eef24ebe601c4e2f99da3108ddc3b09b",
+      "title": "Lunch Plate (School Project)"
+    },
+    "generator": "Sketchfab-3.23.4",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 7200,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8712,
+      "byteOffset": 7200,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 5808,
+      "byteOffset": 15912,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 21720,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "material",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.94805200000000001,
+          0.94805200000000001,
+          0.94805200000000001,
+          1
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.080983231700000005
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "pCylinder7_Mug_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2
+          },
+          "indices": 3,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "408b9dfbc3d7443aa1c318e090fd8efd.fbx"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5
+      ],
+      "name": "pCylinder7"
+    },
+    {
+      "mesh": 0,
+      "name": "pCylinder7_Mug_0"
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ]
+}
+
