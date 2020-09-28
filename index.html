@@ -6,11 +6,8 @@
     <meta name="description" content="Hello, World! - A-Frame">
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-physics-system@v3.2.0/dist/aframe-physics-system.min.js"></script>
     <script src="https://unpkg.com/aframe-sun-sky@3.0.3/dist/aframe-sun-sky.min.js"></script>
-    <script src="https://unpkg.com/aframe-lerp-component/dist/aframe-lerp-component.min.js"></script>
     <script src="https://rawgit.com/caseyyee/aframe-ui-widgets/master/dist/aframe-ui-widgets.min.js"></script>
-	<script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
 	<script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
 	
 </head>
@@ -84,7 +81,7 @@
                   scale="0.28 0.28 0.28" gltf-model="models/computer_desk/scene.gltf"></a-entity>
         <a-entity id="light-switch" scale="1.2 1.2 1" shadow="cast: false; receive: true" rotation="0 0 0"
                   position="0.09118 2.10871 -3.044" gltf-model="models/light_switch/scene.gltf"></a-entity>
-        <a-entity id="fan" scale="0.003 0.003 0.003" position="-4.18253 5.02908 -3.27803"
+        <a-entity id="fan" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear" scale="0.003 0.003 0.003" position="-4.18253 5.02908 -3.27803"
                   gltf-model="models/ceiling_fan/scene.gltf">
             <a-light id="fan-light"
                      light="type: point; penumbra: 0; shadowBias: 0; castShadow: true; angle: 60; shadowCameraVisible: false; shadowRadius: 1; shadowMapWidth: 512; shadowCameraBottom: -5; decay: 1; intensity: 0.25; color: #fffff4; distance: 0"
