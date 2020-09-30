@@ -39,7 +39,6 @@ function OnNormalButtonPress(){
 }
 
 function OnCoronaButtonPressed(){
-	console.log(click_sound);
 	click_sound.components.sound.playSound();
 	ClearTimers();
 	for (i = 0; i < fadeOutObjs.length; i++){
