@@ -7,6 +7,7 @@ var fadeInObjs = document.querySelectorAll('.fadeIn');
 var normal_button = document.querySelector('#normal-button');
 var corona_button = document.querySelector('#corona-button');
 var reset_button = document.querySelector('#reset-button');
+var click_sound = document.querySelector('#click')
 
 var doFadeOut = function() {
 	for (i = 0; i < fadeOutObjs.length; i++){
@@ -27,6 +28,7 @@ var doFadeIn = function() {
 }
 
 function OnNormalButtonPress(){
+	click_sound.components.sound.playSound();
 	ClearTimers();
 	for (i = 0; i < fadeOutObjs.length; i++){
 		fadeOutObjs[i].setAttribute('model-opacity', 1);
@@ -37,6 +39,8 @@ function OnNormalButtonPress(){
 }
 
 function OnCoronaButtonPressed(){
+	console.log(click_sound);
+	click_sound.components.sound.playSound();
 	ClearTimers();
 	for (i = 0; i < fadeOutObjs.length; i++){
 		fadeOutObjs[i].setAttribute('model-opacity', 0);
@@ -44,6 +48,11 @@ function OnCoronaButtonPressed(){
 	for (i = 0; i < fadeInObjs.length; i++){
 		fadeInObjs[i].setAttribute('model-opacity', 1);
 	}
+}
+
+function OnResetButtonPressed(){
+	click_sound.components.sound.playSound();
+	Init();
 }
 
 function Init(){
@@ -69,6 +78,6 @@ function ClearTimers(){
 setTimeout(function(){ 
 	normal_button.addEventListener('pressed', function(){OnNormalButtonPress();});
 	corona_button.addEventListener('pressed', function(){OnCoronaButtonPressed();});
-	reset_button.addEventListener('pressed', function(){Init();});
+	reset_button.addEventListener('pressed', function(){OnResetButtonPressed();});
 	Init();
 }, 3000);

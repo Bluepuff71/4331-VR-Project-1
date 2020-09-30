@@ -37,6 +37,7 @@
 
 <a-scene>
     <a-assets>
+		<audio id="click-sound" src="sounds/click.mp3" preload="auto"></audio>
         <a-mixin id="controller-left"
                  teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc">
         </a-mixin>
@@ -138,6 +139,7 @@
                   ui-button="base: beveled-square, blue; top: square, darkred; pressed: yellow, offset"></a-entity>
 		<a-entity id="reset-button" rotation="-90 0 0" position="0.56923 2.09007 -3.04317"
                   ui-button="base: beveled-square, blue; top: square, gold; pressed: yellow, offset"></a-entity>
+		<a-entity id="click" sound="poolSize: 10; src: #click-sound"></a-entity>
     </a-entity>
 
 
